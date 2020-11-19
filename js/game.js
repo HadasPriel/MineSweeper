@@ -18,9 +18,9 @@ function initGame() {
 function firstClick(cell) {
     if (cell.isMine) {
         var random = getRandomCell(gBoard);
-        var temp = random;
-        random = cell;
-        cell = temp;
+        var temp = cell;
+        cell = random;
+        random = temp;
         setMinesNegsCount(gBoard);
     }
     startTimer();
@@ -30,6 +30,8 @@ function firstClick(cell) {
 
 function endGame() {
     clearInterval(gTimerInterval);
+    gTimerInterval = null;
+    var elClock = document.querySelector('.clock');
     gGame.isOn = false;
     btnHTML();
 }
@@ -39,11 +41,13 @@ function reset() {
     gGame.shownCount = 0;
     gGame.markedCount = 0;
     gGame.isVictory = false;
-    gTimerInterval = null;
+    gGame.isOn = false;
+    clearInterval(gTimerInterval);
     btnHTML();
     liveHTML();
     var elClock = document.querySelector('.clock');
     elClock.innerText = '00 : 00';
+
 }
 
 function resetBoard() {
@@ -86,7 +90,7 @@ function cellClicked(elCell) {
 
     //case the user clicked cell with neighbors:
     else if (cell.minesAroundCount > 0) {
-        gBoard[location.i][location.j].isShown = true;
+        cell.isShown = true;
         elCell.innerHTML = cell.minesAroundCount;
         elCell.classList.add("checked");
         gGame.shownCount++;
@@ -113,11 +117,10 @@ function expandShown(board, i, j) {
 
             var elNeg = document.querySelector(`.cell-${x}-${y}`);
             elNeg.classList.add("checked");
-            //if 0 negs dont show number
+            //if cell have 0 negs dont show number
             if (board[x][y].minesAroundCount) renderCell(x, y, board[x][y].minesAroundCount);
             else expandShown(board, x, y);
         }
-
     }
 }
 
@@ -152,15 +155,6 @@ function checkGameOver() {
     }
 }
 
-function liveHTML() {
-    strHTML = ''
-    for (var i = 0; i < gLiveCounter; i++) {
-        strHTML += '<img src="img/heart.png"/>';
-    }
-    var elLiveBar = document.querySelector('.lives');
-    elLiveBar.innerHTML = strHTML;
-}
-
 function btnHTML() {
     strHTML = '';
     if (gGame.isVictory) strHTML = '<img src="img/cool.png"/>';
@@ -171,35 +165,4 @@ function btnHTML() {
 
     elBtn = document.querySelector('button');
     elBtn.innerHTML = strHTML;
-}
-
-function hint(elHintBtn) {
-    elHintBtn.classList.add('use')
-    gGame.isHint = true;
-
-    // setTimeout(function() {
-    //     elHintBtn.classList.remove('use')
-    // }, 1000)
-
-
-    //     strHTML='';
-    // strHTML+= `<img src="img/bulbOn.png">`
-}
-
-function playHint(elCell) {
-
-
-    var location = getCellLocation(elCell.className);
-    var cell = gBoard[location.i][location.j];
-
-    for (var i = location.i - 1; i <= location.i + 1; i++) {
-        if (i < 0 || i > gBoard.length - 1) continue;
-        for (var j = location.j - 1; j <= location.j + 1; j++) {
-            if (j < 0 || j > gBoard.length - 1) continue;
-            var elCell = document.querySelector(`.cell-${i}-${j}`);
-            elCell.classList.add("checked");
-            if (gBoard[i][j].minesAroundCount) renderCell(i, j, gBoard[i][j].minesAroundCount);
-        }
-
-    }
 }

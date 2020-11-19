@@ -15,6 +15,8 @@ function buildBoard(size) {
         board.push([]);
         for (var j = 0; j < size; j++) {
             board[i][j] = {
+                i: i,
+                j: j,
                 minesAroundCount: 0,
                 isShown: false,
                 isMine: false,

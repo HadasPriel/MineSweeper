@@ -22,17 +22,20 @@
     <div class="lives"> </div>
     <div class="reset"> <button onclick="reset(), resetBoard()"></button> </div>
     <div class="board-container"> </div>
-    <div class="hint">
 
+    <div class="hint">
         <button onclick="hint(this)"> <img src="img/bulb.png"> </button>
         <button onclick="hint(this)"> <img src="img/bulb.png"> </button>
         <button onclick="hint(this)"> <img src="img/bulb.png"> </button>
     </div>
 
+    <div class="safe"><button onclick="safeClick(this)"> 3 safe click</button></div>
+    <!-- <div class="safe"><button onclick="safeClick(this)"> safe click! <span> 3 </span></button></div> -->
 
     <script src="js/utils.js"></script>
     <script src="js/board.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/additions.js"></script>
 
 
 </body>

@@ -82,3 +82,12 @@ td {
 .hint .use img {
     box-shadow: 5px 5px 39px 28px rgba(255, 242, 48, 0.89);
 }
+
+
+/* .hint td {
+    background: yellow;
+} */
+
+.safeClick {
+    background-color: turquoise;
+}

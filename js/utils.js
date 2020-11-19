@@ -5,6 +5,7 @@ function getRandomCell(gBoard) {
     return gBoard[i][j];
 }
 
+
 //translate class 'cell,i,j' into lacotion {i: i, j: j} 
 function getCellLocation(str) {
     var classDivs = str.split('-');
