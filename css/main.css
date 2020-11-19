@@ -1,5 +1,7 @@
 body {
     text-align: center;
+    background: url("../img/bg2.jpg") no-repeat;
+    background-size: cover;
 }
 
 .board-container table {
@@ -8,35 +10,75 @@ body {
     margin-right: auto;
 }
 
-.board-container td {
-    width: 20px;
-    height: 20px;
-    font-size: 15px;
-    border: black 1px solid;
+td {
+    background-color: rgba(67, 170, 139, 0.685);
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    font-weight: 600;
+    border: black 2px solid;
     cursor: pointer;
 }
 
-.board-container img {
-    width: 15px;
-    height: 15px;
-}
-
 .miss {
-    background-color: red;
+    background-color: rgb(249, 65, 68);
 }
 
 .checked {
-    background-color: rgb(156, 154, 154);
+    background-color: rgb(28, 93, 121);
+}
+
+.board-container img {
+    width: 25px;
+    height: 25px;
+}
+
+.clock {
+    line-height: 80px;
+    font-size: 30px;
+    height: 80px;
+    width: 300px;
+    margin: auto;
+    border-radius: 30%;
+    background: rgba(77, 144, 142);
+    color: white;
+}
+
+.setLevel {
+    font-size: 25px;
 }
 
 .lives {
-    height: 40px;
+    height: 80px;
 }
 
 .lives img {
-    width: 30px;
+    width: 60px;
 }
 
-button img {
-    width: 20px;
+.reset button {
+    background: none;
+    border: none;
+}
+
+.reset button img {
+    width: 45px;
+    margin-bottom: 20px;
+}
+
+.hint button {
+    height: 50px;
+    width: 50px;
+    background: none;
+    border: none;
+    /* background: rgb(28, 93, 121);
+    border-radius: 50%; */
+}
+
+.hint img {
+    height: 50px;
+}
+
+.hint .use img {
+    box-shadow: 5px 5px 39px 28px rgba(255, 242, 48, 0.89);
 }

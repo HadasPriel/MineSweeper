@@ -40,23 +40,3 @@ function time() {
 function findNegs(location) {
     //to avoid repetition build and use at cellClicked and setMinesNegsCount
 }
-
-
-
-
-
-
-
-
-
-
-// for (var x = location.i - 1; x <= location.i + 1; x++) {
-//     if (x < 0 || x > gBoard.length - 1) continue;
-//     for (var y = location.j - 1; y <= location.j + 1; y++) {
-//         if (y < 0 || y > gBoard.length - 1) continue;
-//         if (gBoard[x][y].isMine) continue;
-//         if (gBoard[x][y].isShown) continue;
-//         gBoard[x][y].isShown = true;
-//         renderCell(x, y, gBoard[x][y].minesAroundCount);
-//     }
-// }
