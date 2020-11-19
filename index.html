@@ -11,11 +11,21 @@
 
 <body onload="initGame()">
     <div class="clock"> 00 : 00</div>
-
+    <div class="setLevel">
+        <input name="level" id="1" type="radio" value="Beginner" onclick="setLevel(this)" checked>
+        <label for="1">Beginner</label>
+        <input name="level" id="2" type="radio" value="Medium" onclick="setLevel(this)">
+        <label for="2">Medium</label>
+        <input name="level" id="3" type="radio" value="Expert" onclick="setLevel(this)">
+        <label for="3">Expert</label>
+    </div>
+    <div class="lives"> </div>
+    <div class="reset"> <button onclick="reset(), resetBoard()"></button> </div>
     <div class="board-container"> </div>
 
     <script src="js/utils.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/game.js"></script>
 
 
 </body>

@@ -1,12 +1,42 @@
-.board-container td {
-    width: 40px;
-    height: 40px;
+body {
     text-align: center;
-    font-size: 1.5em;
+}
+
+.board-container table {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.board-container td {
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
     border: black 1px solid;
     cursor: pointer;
 }
 
-img {
-    width: 35px;
+.board-container img {
+    width: 15px;
+    height: 15px;
+}
+
+.miss {
+    background-color: red;
+}
+
+.checked {
+    background-color: rgb(156, 154, 154);
+}
+
+.lives {
+    height: 40px;
+}
+
+.lives img {
+    width: 30px;
+}
+
+button img {
+    width: 20px;
 }
