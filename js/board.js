@@ -6,7 +6,7 @@ var gLevel = {
     MINES: 2
 };
 
-var gBoard = buildBoard(gLevel.SIZE, gLevel.MINES);
+var gBoard = buildBoard(gLevel.SIZE);
 console.log(gBoard);
 
 function buildBoard(size) {
@@ -15,8 +15,6 @@ function buildBoard(size) {
         board.push([]);
         for (var j = 0; j < size; j++) {
             board[i][j] = {
-                i: i,
-                j: j,
                 minesAroundCount: 0,
                 isShown: false,
                 isMine: false,
@@ -25,18 +23,18 @@ function buildBoard(size) {
         }
     }
     for (i = 0; i < gLevel.MINES; i++) {
-        randomCell = getRandomCell(board);
-        randomCell.isMine = true;
+        var random = getRandomFreeCell(board)
+        random.isMine = true
     }
     setMinesNegsCount(board);
     return board;
 }
 
-function renderBoard(board, selector) {
+function renderBoard(selector) {
     var strHtml = '<table><tbody>';
-    for (var i = 0; i < board.length; i++) {
+    for (var i = 0; i < gLevel.SIZE; i++) {
         strHtml += '<tr>';
-        for (var j = 0; j < board[0].length; j++) {
+        for (var j = 0; j < gLevel.SIZE; j++) {
             strHtml += `<td onclick="cellClicked(this, ${i}, ${j})" 
             onmousedown = "cellMarked(this, event)" 
             oncontextmenu="event.preventDefault();"

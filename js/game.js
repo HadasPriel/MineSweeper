@@ -3,35 +3,27 @@ var gGame = {
     shownCount: 0,
     markedCount: 0,
     isVictory: false,
-    isHint: false
+    isHint: false,
+    manuallyCreate: false
 };
 var gTimerInterval;
 var gLiveCounter = 3;
-
+var gMoves = [];
 
 function initGame() {
-    renderBoard(gBoard, '.board-container');
+    renderBoard('.board-container');
     liveHTML();
     btnHTML();
 }
 
-function firstClick(cell) {
-    if (cell.isMine) {
-        var random = getRandomCell(gBoard);
-        var temp = cell;
-        cell = random;
-        random = temp;
-        setMinesNegsCount(gBoard);
-    }
+function firstClick() {
     startTimer();
     gGame.isOn = true;
-    return cell;
 }
 
 function endGame() {
     clearInterval(gTimerInterval);
     gTimerInterval = null;
-    var elClock = document.querySelector('.clock');
     gGame.isOn = false;
     btnHTML();
 }
@@ -47,12 +39,15 @@ function reset() {
     liveHTML();
     var elClock = document.querySelector('.clock');
     elClock.innerText = '00 : 00';
-
+    gSafeNum = 3
+    var elSafe = document.querySelector('.safe button span');
+    elSafe.innerText = '3';
+    gMoves = [];
 }
 
 function resetBoard() {
     gBoard = buildBoard(gLevel.SIZE, gLevel.MINES);
-    renderBoard(gBoard, '.board-container');
+    renderBoard('.board-container');
 }
 
 function cellClicked(elCell) {
@@ -60,22 +55,34 @@ function cellClicked(elCell) {
         playHint(elCell)
         return
     }
+    if (gGame.manuallyCreate) {
+        playManually(elCell)
+        return
+    }
     var location = getCellLocation(elCell.className);
     var cell = gBoard[location.i][location.j];
-    //first click of game
     if (!gGame.isOn) {
-        if (gGame.shownCount + gGame.markedCount === 0) cell = firstClick(cell);
-        else return;
+        if (gGame.shownCount === 0 && gGame.markedCount === 0) {
+            if (cell.isMine) {
+                var random = getRandomFreeCell(gBoard)
+                random.isMine = true;
+                cell.isMine = false;
+                setMinesNegsCount(gBoard);
+            }
+            firstClick();
+        } else return;
     }
     if (cell.isShown) return;
     if (cell.isMarked) return;
     //case the user clicked a mine:
     if (cell.isMine) {
+        var clickedMines = []
         if (gLiveCounter === 1) {
             for (var i = 0; i < gBoard.length; i++) {
                 for (var j = 0; j < gBoard.length; j++) {
                     if (gBoard[i][j].isMine) {
                         renderCell(i, j, MINE_IMG);
+                        clickedMines.push({ i: i, j: j })
                     }
                 }
             }
@@ -86,6 +93,8 @@ function cellClicked(elCell) {
         renderCell(location.i, location.j, MINE_IMG);
         gLiveCounter--;
         liveHTML();
+        clickedMines.push({ i: location.i, j: location.j })
+        gMoves.push(clickedMines)
     }
 
     //case the user clicked cell with neighbors:
@@ -94,17 +103,20 @@ function cellClicked(elCell) {
         elCell.innerHTML = cell.minesAroundCount;
         elCell.classList.add("checked");
         gGame.shownCount++;
+        gMoves.push([{ i: location.i, j: location.j }])
     }
 
     //case the user clicked cell with no neighbors:
     else if (cell.minesAroundCount === 0) {
-        expandShown(gBoard, location.i, location.j);
+        var cellsTurn = []
+        expandShown(gBoard, location.i, location.j, cellsTurn);
+        gMoves.push(cellsTurn)
     }
 
     checkGameOver();
 }
 
-function expandShown(board, i, j) {
+function expandShown(board, i, j, cellsTurn) {
     for (var x = i - 1; x <= i + 1; x++) {
         if (x < 0 || x > board.length - 1) continue;
         for (var y = j - 1; y <= j + 1; y++) {
@@ -115,11 +127,14 @@ function expandShown(board, i, j) {
             board[x][y].isShown = true;
             gGame.shownCount++;
 
+            var lastLocation = { i: x, j: y };
+            cellsTurn.push(lastLocation)
+
             var elNeg = document.querySelector(`.cell-${x}-${y}`);
             elNeg.classList.add("checked");
             //if cell have 0 negs dont show number
             if (board[x][y].minesAroundCount) renderCell(x, y, board[x][y].minesAroundCount);
-            else expandShown(board, x, y);
+            else expandShown(board, x, y, cellsTurn);
         }
     }
 }

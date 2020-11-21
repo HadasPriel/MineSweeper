@@ -56,6 +56,11 @@ td {
     width: 60px;
 }
 
+.reset {
+    width: 60px;
+    display: inline-block;
+}
+
 .reset button {
     background: none;
     border: none;
@@ -80,6 +85,7 @@ td {
 }
 
 .hint .use img {
+    background-color: rgba(255, 241, 48, 0.808);
     box-shadow: 5px 5px 39px 28px rgba(255, 242, 48, 0.89);
 }
 
@@ -90,4 +96,26 @@ td {
 
 .safeClick {
     background-color: turquoise;
+}
+
+.safe {
+    width: 60px;
+    display: inline-block;
+}
+
+.undo {
+    width: 60px;
+    display: inline-block;
+}
+
+.manually {
+    width: 60px;
+    display: inline-block;
+}
+
+.bt button {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: pink;
 }

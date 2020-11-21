@@ -1,26 +1,5 @@
 var gSafeNum = 3;
 
-function getRandomCellCoor2() {
-    var freeCoors = [];
-    for (var i = 0; i < gBoard.length; i++) {
-        for (var j = 0; j < gBoard.length; j++) {
-            if (gBoard[i][i].isMine === false && gBoard[i][i].isShown === false) freeCoors.push({ i: i, j: j })
-        }
-    }
-    freeCoors.sort(function() { return Math.random() - 0.5 })
-    return freeCoors.pop();
-}
-
-function getRandomCellCoor() {
-    if (gBoard.isShown + gBoard.isMine > Math.pow(gLevel.SIZE, 2)) return; //need improvement!!!!!!!!!
-    var i = getRandomIntInclusive(0, gBoard.length - 1);
-    var j = getRandomIntInclusive(0, gBoard.length - 1);
-    if (gBoard[i][j].isMine) getRandomCellCoor(gBoard);
-    if (gBoard[i][j].isShown) getRandomCellCoor(gBoard); //need improvement!!!!
-
-    return { i: i, j: j };
-}
-
 function liveHTML() {
     strHTML = ''
     for (var i = 0; i < gLiveCounter; i++) {
@@ -60,21 +39,55 @@ function playHint(elCell) {
 function safeClick(elSafeBtn) {
     if (gSafeNum === 0) return
     gSafeNum--;
-    for (var i = 0; i < 3; i++) {
-        var location = getRandomCellCoor2()
+    safeCells = [];
+    while (safeCells.length < 3) {
+        var location = getRandomFreeLocation(gBoard)
+        var random = gBoard[location.i][location.j]
+        if (safeCells.includes(random)) {
+            location = getRandomFreeLocation(gBoard)
+            var random = gBoard[location.i][location.j]
+        }
+        safeCells.push(random)
         var elRandom = document.querySelector(`.cell-${location.i}-${location.j}`)
         elRandom.classList.add('safeClick')
 
         deletSafe(elRandom)
-
     }
-    // var elSpan = elSafeBtn.document.querySelector('span')
-    // elSpan.innerText = gSafeNum;
-    elSafeBtn.innerText = `${gSafeNum} safe click`
+    var elSpan = elSafeBtn.querySelector('span')
+    elSpan.innerText = gSafeNum;
 }
 
 function deletSafe(elRandom) {
     setTimeout(function() {
         elRandom.classList.remove('safeClick')
     }, 1000)
+}
+
+function undo() {
+    if (!gGame.isOn) return
+    var lastClickCells = gMoves.pop()
+    for (var i = 0; i < lastClickCells.length; i++) {
+        var lastLocation = lastClickCells[i]
+        var lastCell = gBoard[lastLocation.i][lastLocation.j]
+        lastCell.isShown = false
+
+        var elLastCell = document.querySelector(`.cell-${lastLocation.i}-${lastLocation.j}`)
+        elLastCell.innerText = '';
+        elLastCell.classList.remove('checked')
+    }
+}
+
+
+function manuallyCreate() {
+    gGame.manuallyCreate = true;
+}
+
+function playManually(elCell) {
+
+
+
+    elBtn = document.querySelector('.manually span')
+    for (var i = gLevel.MINES; i > 0; i++) {
+        elBtn.innerText = `Insert ${i} more mines`
+    }
 }

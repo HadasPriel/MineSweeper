@@ -1,10 +1,18 @@
-function getRandomCell(gBoard) {
+function getRandomFreeCell(gBoard) {
     var i = getRandomIntInclusive(0, gBoard.length - 1);
     var j = getRandomIntInclusive(0, gBoard.length - 1);
-    if (gBoard[i][j].isMine) getRandomCell(gBoard);
+    if (gBoard[i][j].isMine || gBoard[i][j].isShown) getRandomFreeCell(gBoard);
     return gBoard[i][j];
 }
 
+
+function getRandomFreeLocation(gBoard) {
+    var i = getRandomIntInclusive(0, gBoard.length - 1);
+    var j = getRandomIntInclusive(0, gBoard.length - 1);
+    var location = { i: i, j: j }
+    if (gBoard[i][j].isMine || gBoard[i][j].isShown) location = getRandomFreeLocation(gBoard);
+    return location;
+}
 
 //translate class 'cell,i,j' into lacotion {i: i, j: j} 
 function getCellLocation(str) {
