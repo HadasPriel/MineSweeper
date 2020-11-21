@@ -55,10 +55,10 @@ function cellClicked(elCell) {
         playHint(elCell)
         return
     }
-    if (gGame.manuallyCreate) {
-        playManually(elCell)
-        return
-    }
+    // if (gGame.manuallyCreate) {
+    //     playManually(elCell)
+    //     return
+    // }
     var location = getCellLocation(elCell.className);
     var cell = gBoard[location.i][location.j];
     if (!gGame.isOn) {

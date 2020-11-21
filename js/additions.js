@@ -78,16 +78,14 @@ function undo() {
 }
 
 
-function manuallyCreate() {
-    gGame.manuallyCreate = true;
-}
+// function manuallyCreate() {
+//     gGame.manuallyCreate = true;
+// }
 
-function playManually(elCell) {
+// function playManually(elCell) {
 
-
-
-    elBtn = document.querySelector('.manually span')
-    for (var i = gLevel.MINES; i > 0; i++) {
-        elBtn.innerText = `Insert ${i} more mines`
-    }
-}
+//     elBtn = document.querySelector('.manually span')
+//     for (var i = gLevel.MINES; i > 0; i++) {
+//         elBtn.innerText = `Insert ${i} more mines`
+//     }
+// }
